@@ -14,7 +14,7 @@
     @vite(['resources/css/componentes/nav.css', 'resources/js/app.js'])
 </head>
 
-{<!-- as partes comentadas é por que eu estava fazendo o projeto com o auth ui do laravel, porem faremos nosso próprio auth -->}
+<!-- as partes comentadas é por que eu estava fazendo o projeto com o auth ui do laravel, porem faremos nosso próprio auth -->
 
 <body>
     <div id="aplicacao">
