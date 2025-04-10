@@ -11,9 +11,8 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     @stack('styles')
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/componentes/nav.css', 'resources/js/app.js'])
 </head>
-
 
 {<!-- as partes comentadas é por que eu estava fazendo o projeto com o auth ui do laravel, porem faremos nosso próprio auth -->}
 
@@ -34,7 +33,7 @@
                     @endif
                 @else --}}
                     <li class="link" action="{{ route('home') }}">Home</li>
-                    <li id="perfil" class="dropdown">
+                    {{-- <li id="perfil" class="dropdown"> --}}
                         {{-- <span class="link">{{ Auth::user()->name }} ▼</span> --}}
                         {{-- <ul class="submenu">
                             <li>
@@ -48,7 +47,7 @@
                                 </form>
                             </li>
                         </ul> --}}
-                    </li>
+                    {{-- </li> --}}
                 {{-- @endguest --}}
             </ul>
         </nav>
