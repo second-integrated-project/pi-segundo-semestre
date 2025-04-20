@@ -10,22 +10,23 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-    z-index:1000;
+    z-index: 1000;
 }
 
 #navbar ul {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    padding-left:20px;
+    padding-left: 20px;
 }
 #navbar ul li {
     margin-top: 1.25rem;
     list-style: none;
     font-size: 32px;
+    padding-right: 30px;
 }
 #navbar ul li a {
-    display: inline-block; 
+    display: inline-block;
     transition: transform 0.3s ease, color 0.3s ease;
     text-decoration: none;
 }
@@ -33,10 +34,12 @@
 #navbar ul li a:hover {
     transform: scale(1.2);
     color: #ff6600;
-    cursor:pointer;
+    cursor: pointer;
 }
 #perfil {
     position: relative;
+    margin-left: auto;
+    margin-right: 0;
 }
 
 #perfil .submenu {
@@ -44,18 +47,19 @@
     position: absolute;
     top: 100%;
     right: 0;
-    background-color: antiquewhite;
-    border: 1px solid #ccc;
+    background-color: rgb(253, 253, 253);
+    border: 1px solid #aaaaaa;
+    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.5);
     padding-right: 30px;
     padding-left: 30px;
-    padding-bottom:20px;
+    padding-bottom: 20px;
     border-radius: 5px;
     z-index: 1000;
 }
 
 #perfil:hover .submenu {
     display: block;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 #perfil .submenu li {
@@ -65,12 +69,12 @@
 }
 
 .link {
-    display: inline-block; 
+    display: inline-block;
     transition: transform 0.3s ease, color 0.3s ease;
     text-decoration: none;
 }
 .link:hover {
     transform: scale(1.2);
     color: #ff6600;
-    cursor:pointer;
+    cursor: pointer;
 }

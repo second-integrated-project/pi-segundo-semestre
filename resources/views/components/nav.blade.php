@@ -20,22 +20,23 @@
     <div id="aplicacao">
         <nav id="navbar">
             <ul>
-                {{-- @guest
+                @guest
                     @if (Route::has('login'))
-                        <li>
-                            <a href="{{ route('login') }}">Entrar</a>
-                        </li>
+                        <li><a href="{{ route('login') }}">Entrar</a></li>
                     @endif
                     @if (Route::has('register'))
-                        <li>
-                            <a href="{{ route('register') }}">Registrar</a>
-                        </li>
+                        <li><a href="{{ route('register') }}">Registrar</a></li>
                     @endif
-                @else --}}
-                    <li class="link" action="{{ route('home') }}">Home</li>
-                    {{-- <li id="perfil" class="dropdown"> --}}
-                        {{-- <span class="link">{{ Auth::user()->name }} ▼</span> --}}
-                        {{-- <ul class="submenu">
+                @else
+                    <li><a href="{{ route('home') }}" class="link">Home</a></li>
+                    <li><a href="{{ route('home') }}" class="link">Teste</a></li>
+
+                    <li id="perfil" class="dropdown">
+                        <span class="link">{{ Auth::user()->name }} ▼</span>
+                        <ul class="submenu">
+                            <li>
+                                <a class="link" href="{{ route('profile.edit') }}">Perfil</a>
+                            </li>
                             <li>
                                 <a class="link" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('formularioLogout').submit();">
@@ -46,9 +47,9 @@
                                     @csrf
                                 </form>
                             </li>
-                        </ul> --}}
-                    {{-- </li> --}}
-                {{-- @endguest --}}
+                        </ul>
+                    </li>
+                @endguest
             </ul>
         </nav>
 
