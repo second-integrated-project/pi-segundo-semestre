@@ -5,37 +5,34 @@
 }
 #navbar {
     width: 100%;
-    background-color: #fff;
+    background-color: #111827;
     height: 5rem;
-    align-items: center;
-    justify-content: center;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
     z-index: 1000;
 }
 
-#navbar ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    padding-left: 20px;
+#logobar{
+    color: #f97316;
 }
 #navbar ul li {
-    margin-top: 1.25rem;
-    list-style: none;
-    font-size: 32px;
-    padding-right: 30px;
+    position: relative;
+    color: #f97316;
+    font-size:20px;
 }
+
 #navbar ul li a {
     display: inline-block;
     transition: transform 0.3s ease, color 0.3s ease;
     text-decoration: none;
+    color: #f97316;
 }
 
 #navbar ul li a:hover {
     transform: scale(1.2);
-    color: #ff6600;
+    color: white;
     cursor: pointer;
 }
+
 #perfil {
     position: relative;
     margin-left: auto;
@@ -60,12 +57,15 @@
 #perfil:hover .submenu {
     display: block;
     cursor: pointer;
+    background-color: #111827;
 }
 
 #perfil .submenu li {
     list-style: none;
-    padding: 5px 0;
+    padding: 5px;
+    color:#ff6600;
     font-size: 20px;
+    margin-top:10px;
 }
 
 .link {
@@ -75,6 +75,6 @@
 }
 .link:hover {
     transform: scale(1.2);
-    color: #ff6600;
+    color: white;
     cursor: pointer;
 }

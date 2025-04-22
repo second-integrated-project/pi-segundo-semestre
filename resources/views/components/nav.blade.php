@@ -6,36 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Amarillo Barber</title>
 
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     @stack('styles')
-    @vite(['resources/css/componentes/nav.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/componentes/nav.css', 'resources/js/app.js'])
 </head>
 
-<!-- as partes comentadas é por que eu estava fazendo o projeto com o auth ui do laravel, porem faremos nosso próprio auth -->
-
-<body>
+<body class="font-sans antialiased bg-gray-900 text-white">
     <div id="aplicacao">
-        <nav id="navbar">
-            <ul>
+        <nav id="navbar" class="bg-white shadow-md px-6 py-3 flex justify-between items-center">
+            <div class="text-lg font-bold text-gray-800">
+                <h1 id="logobar">Amarillo Barber</h1>
+            </div>
+            <ul class="flex gap-6 items-center text-sm font-medium text-gray-700">
                 @guest
                     @if (Route::has('login'))
-                        <li><a href="{{ route('login') }}">Entrar</a></li>
+                        <li><a href="{{ route('login') }}" class="hover:text-orange-500 transition">Entrar</a></li>
                     @endif
                     @if (Route::has('register'))
-                        <li><a href="{{ route('register') }}">Registrar</a></li>
+                        <li><a href="{{ route('register') }}" class="hover:text-orange-500 transition">Registrar</a></li>
                     @endif
                 @else
-                    <li><a href="{{ route('home') }}" class="link">Home</a></li>
-                    <li><a href="{{ route('home') }}" class="link">Teste</a></li>
+                    <li><a href="{{ route('home') }}" class="hover:text-orange-500 transition">Home</a></li>
+                    <li><a href="#" class="hover:text-orange-500 transition">Teste</a></li>
 
                     <li id="perfil" class="dropdown">
                         <span class="link">{{ Auth::user()->name }} ▼</span>
                         <ul class="submenu">
                             <li>
-                                <a class="link" href="{{ route('profile.edit') }}">Perfil</a>
+                                <a class="link" href="{{ route('profile.edit') }}">
+                                    Perfil
+                                </a>
                             </li>
                             <li>
                                 <a class="link" href="{{ route('logout') }}"
@@ -53,7 +56,7 @@
             </ul>
         </nav>
 
-        <main>
+        <main class="mt-6">
             @yield('content')
         </main>
     </div>
