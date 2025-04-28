@@ -1,11 +1,33 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-})->middleware(['auth', 'verified'])->name('home');
+});
+
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
+Route::get('/sobre', function () {
+    return view('sobre');
+})->name('sobre');
+
+
+Route::get('/servicos', function () {
+    return view('servicos');
+})->name('servicos');;
+
+Route::get('/contato', function () {
+    return view('contato');
+})->name('contato');;
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified', 'user'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -14,3 +36,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+route::get('admin/dashboard', [HomeController::class,'index'])->middleware(['auth', 'admin'])->name('admin.dashboard');
