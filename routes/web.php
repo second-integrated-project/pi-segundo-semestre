@@ -37,14 +37,14 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/inventario', [InventarioController::class, 'index'])->name('admin.inventario.index');
-    Route::get('/inventario/create', [InventarioController::class, 'create'])->name('admin.inventario.create');
-    Route::post('/inventario/store', [InventarioController::class, 'store'])->name('admin.inventario.store');
-    Route::get('/inventario/edit/{inventario}', [InventarioController::class, 'edit'])->name('admin.inventario.edit');
-    Route::patch('/inventario/edit/{inventario}', [InventarioController::class, 'update'])->name('admin.inventario.update');
-    Route::delete('/inventario/destroy/{inventario}', [InventarioController::class, 'destroy'])->name('admin.inventario.destroy');
+    route::get('admin/dashboard', [HomeController::class,'index'])->name('admin.dashboard');
+    Route::get('admin/inventario', [InventarioController::class, 'index'])->name('admin.inventario.index');
+    Route::get('admin/inventario/create', [InventarioController::class, 'create'])->name('admin.inventario.create');
+    Route::post('admin/inventario/store', [InventarioController::class, 'store'])->name('admin.inventario.store');
+    Route::get('admin/inventario/edit/{inventario}', [InventarioController::class, 'edit'])->name('admin.inventario.edit');
+    Route::patch('admin/inventario/edit/{inventario}', [InventarioController::class, 'update'])->name('admin.inventario.update');
+    Route::delete('admin/inventario/destroy/{inventario}', [InventarioController::class, 'destroy'])->name('admin.inventario.destroy');
 });
 
 require __DIR__.'/auth.php';
 
-route::get('admin/dashboard', [HomeController::class,'index'])->middleware(['auth', 'admin'])->name('admin.dashboard');

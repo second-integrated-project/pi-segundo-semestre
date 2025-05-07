@@ -22,7 +22,7 @@ class InventarioController extends Controller
     {
         $data = $request->all();
         Inventario::create($data);
-        return redirect('inventario')->with('success', 'Item cadastrado com sucesso!');
+        return redirect('admin/inventario')->with('success', 'Item cadastrado com sucesso!');
     }
 
     public function edit(Inventario $inventario)
@@ -34,12 +34,12 @@ class InventarioController extends Controller
     {
         $data = $request->all();
         $inventario->update($data);
-        return redirect('inventario')->with('success', 'Item atualizado com sucesso!');
+        return redirect('admin/inventario')->with('success', 'Item atualizado com sucesso!');
     }
 
     public function destroy(Inventario $inventario)
     {
         $inventario->delete();
-        return redirect('inventario')->with('success', 'Item deletado com sucesso!');
+        return redirect('admin/inventario')->with('success', 'Item deletado com sucesso!');
     }
 }

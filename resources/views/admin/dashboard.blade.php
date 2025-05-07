@@ -1,7 +1,6 @@
-@extends('layouts.navigation')
+<x-app-layout>
 
-@section('content')
-    <div class="min-h-screen bg-gray-900 text-white">
+<div class="min-h-screen bg-gray-900 text-white">
         <!-- Conteúdo Principal -->
         <div class="p-6">
             <!-- Header -->
@@ -97,4 +96,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-app-layout>
