@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InventarioController;
 
 Route::get('/', function () {
     return view('home');
@@ -33,6 +34,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/inventario', [InventarioController::class, 'index'])->name('admin.inventario.index');
+    Route::get('/inventario/create', [InventarioController::class, 'create'])->name('admin.inventario.create');
+    Route::post('/inventario/store', [InventarioController::class, 'store'])->name('admin.inventario.store');
+    Route::get('/inventario/edit/{inventario}', [InventarioController::class, 'edit'])->name('admin.inventario.edit');
+    Route::patch('/inventario/edit/{inventario}', [InventarioController::class, 'update'])->name('admin.inventario.update');
+    Route::delete('/inventario/destroy/{inventario}', [InventarioController::class, 'destroy'])->name('admin.inventario.destroy');
 });
 
 require __DIR__.'/auth.php';
