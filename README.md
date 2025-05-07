@@ -89,6 +89,7 @@ php artisan serve
 ## Usage
 
 1. The API will be accessible at http://localhost:8000
+2. You must have installed [Composer](https://getcomposer.org/download/) and [PHP](https://windows.php.net/download/) to run this application!   
 
 
 ## API Testing
