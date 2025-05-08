@@ -21,7 +21,7 @@
                     <x-nav-link :href="route('contato')" :active="request()->routeIs('contato')" class="text-white hover:text-gray-200">
                         {{ __('Contato') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('servicos')" :active="request()->routeIs('servicos')" class="text-white hover:text-gray-200">
+                    <x-nav-link :href="route('admin.servicos.index')" :active="request()->routeIs('admin.servicos.index')" class="text-white hover:text-gray-200">
                         {{ __('Serviços') }}
                     </x-nav-link>
                     @if (Route::has('login'))
