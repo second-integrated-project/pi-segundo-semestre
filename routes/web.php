@@ -14,6 +14,10 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');
 
+Route::get('/agendamento', function () {
+    return view('agendamento');
+})->name('agendamento');
+
 Route::get('/sobre', function () {
     return view('sobre');
 })->name('sobre');
