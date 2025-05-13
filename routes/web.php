@@ -7,34 +7,50 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\AgendamentoController;
 
-Route::get('/', function () {
-    return view('home');
+// Rotas Públicas
+
+
+Route::group([], function () {
+    
+    Route::get('/', function () {
+        return view('home');
+    });
+
+    Route::get('/home', function () {
+        return view('home');
+    })->name('home');
+
+    Route::get('/sobre', function () {
+        return view('sobre');
+    })->name('sobre');
+
+    Route::get('/contato', function () {
+        return view('contato');
+    })->name('contato');
+
+    Route::get('/servicos', [ServicoController::class, 'index'])->name('admin.servicos.index');
+
 });
 
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+// Rotas que precisam de autenticação
 
-Route::get('/sobre', function () {
-    return view('sobre');
-})->name('sobre');
-
-Route::get('/servicos', [ServicoController::class, 'index'])->name('admin.servicos.index');
-
-Route::get('/contato', function () {
-    return view('contato');
-})->name('contato');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified', 'user'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/agendamento', [AgendamentoController::class, 'index'])->name('agendamento');
+    Route::get('/agendamento/create', [AgendamentoController::class, 'create'])->name('agendamento.create');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Rotas que precisam de autenticação e role 'user'
+
+
+Route::middleware(['auth', 'user'])->group(function () {
+    route::get('/agendamento', [AgendamentoController::class,'index'])->name('agendamento.index');
+});
+
+// Rotas que precisam de autenticação e role 'admin'
+
 
 Route::middleware(['auth', 'admin'])->group(function () {
     route::get('admin/dashboard', [HomeController::class,'index'])->name('admin.dashboard');
@@ -52,4 +68,3 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
-

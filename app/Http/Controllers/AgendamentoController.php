@@ -7,6 +7,31 @@ use Illuminate\Http\Request;
 class AgendamentoController extends Controller
 {
     public function index() {
-        return view('agendamento');
+        return view('agendamento.index');
+    }
+
+    public function create()
+    {
+        return view("agendamento.create");
+    }
+
+    public function store()
+    {
+       
+    }
+
+    public function edit()
+    {
+        
+    }
+
+    public function update()
+    {
+        
+    }
+
+    public function destroy()
+    {
+    
     }
 }

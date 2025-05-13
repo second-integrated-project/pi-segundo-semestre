@@ -13,7 +13,7 @@
 
         <!-- Botões principais -->
         <div class="grid grid-cols-1 gap-4">
-            <a href="{{ route('agendamento') }}" class="odd:bg-black even:bg-gray-800 text-white py-3 rounded-xl text-center shadow">
+            <a href="{{ route('agendamento.create') }}" class="odd:bg-black even:bg-gray-800 text-white py-3 rounded-xl text-center shadow">
                 Agendar Horário
             </a>
             <a href="{{ route('admin.servicos.index') }}" class="odd:bg-black even:bg-gray-800 text-white py-3 rounded-xl text-center shadow">

@@ -5,9 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="block h-9 w-auto" />
-                    </a>
+                        <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="block h-9 w-auto" />                 
                 </div>
 
                 <!-- Navigation Links -->
@@ -24,27 +22,29 @@
                     <x-nav-link :href="route('admin.servicos.index')" :active="request()->routeIs('admin.servicos.index')" class="text-white hover:text-gray-200">
                         {{ __('Serviços') }}
                     </x-nav-link>
-                    @if (Route::has('login'))
                     @auth
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white hover:text-gray-200">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    @if (Auth::user()->role === 'admin')
-                    <x-nav-link :href="route('admin.inventario.index')" :active="request()->routeIs('admin.inventario.index')" class="text-white hover:text-gray-200">
-                        {{ __('Estoque') }}
-                    </x-nav-link>
-                    @endif
+                        @if (Auth::user()->role === 'admin')
+                            <x-nav-link :href="route('admin.inventario.index')" :active="request()->routeIs('admin.inventario.index')" class="text-white hover:text-gray-200">
+                                {{ __('Estoque') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" class="text-white hover:text-gray-200">
+                                {{ __('Dashboard') }}
+                            </x-nav-link>
+                        @elseif (Auth::user()->role === 'user')
+                            <x-nav-link :href="route('agendamento.index')" :active="request()->routeIs('agendamento.index')" class="text-white hover:text-gray-200">
+                                {{ __('Meus Agendamentos') }}
+                            </x-nav-link>
+                        @endif
                     @else
-                    <x-nav-link :href="route('login')" :active="request()->routeIs('login')" class="text-white hover:text-gray-200">
-                        {{ __('Login') }}
-                    </x-nav-link>
-                    @if (Route::has('register'))
-                    <x-nav-link :href="route('register')" :active="request()->routeIs('register')" class="text-white hover:text-gray-200">
-                        {{ __('Cadastrar') }}
-                    </x-nav-link>
-                    @endif
+                        <x-nav-link :href="route('login')" :active="request()->routeIs('login')" class="text-white hover:text-gray-200">
+                            {{ __('Login') }}
+                        </x-nav-link>
+                        @if (Route::has('register'))
+                            <x-nav-link :href="route('register')" :active="request()->routeIs('register')" class="text-white hover:text-gray-200">
+                                {{ __('Cadastrar') }}
+                            </x-nav-link>
+                        @endif
                     @endauth
-                    @endif
                 </div>
             </div>
 
@@ -102,7 +102,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>

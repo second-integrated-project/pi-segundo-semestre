@@ -1,12 +1,5 @@
 @extends('layouts.app')
-
 @section('content')
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Agendamento') }}
-        </h2>
-    </x-slot>
-
     <div class="py-6 px-4 sm:px-6 lg:px-8" x-data="{
                                 etapa: 'verificar',
                                 clienteCadastrado: false,
@@ -199,4 +192,4 @@
             this.etapa = 1; // Volta para a etapa inicial (opcional, caso queira reiniciar o processo)
         }
     </script>
-@endsection()
+@endsection
