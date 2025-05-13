@@ -1,10 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ServicoController;
+use App\Http\Controllers\AgendamentoController;
 
 Route::get('/', function () {
     return view('home');
@@ -13,10 +14,6 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 })->name('home');
-
-Route::get('/agendamento', function () {
-    return view('agendamento');
-})->name('agendamento');
 
 Route::get('/sobre', function () {
     return view('sobre');
@@ -33,6 +30,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified', 'user'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/agendamento', [AgendamentoController::class, 'index'])->name('agendamento');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
