@@ -1,4 +1,5 @@
-<x-app-layout>
+@extends('layouts.app')
+@section('content')
 <div class="min-h-screen bg-gray-900 text-white p-6">
     <h2 class="text-2xl font-bold mb-4">Atualizar Serviço</h2>
 
@@ -30,5 +31,4 @@
         <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">Atualizar</button>
     </form>
 </div>
-</x-app-layout>
-
+@endsection
