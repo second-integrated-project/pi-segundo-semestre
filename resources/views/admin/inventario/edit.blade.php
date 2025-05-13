@@ -29,7 +29,12 @@
                 <input type="text" name="preco" value="{{ $inventario->preco }}" class="w-full p-2 rounded bg-gray-700 text-white">
             </div>
         </div>
-        <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">Atualizar</button>
+        <div class="flex justify-between">
+            <a href="{{ url()->previous() }}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                Voltar
+            </a>
+            <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">Atualizar</button>
+        </div>    
     </form>
 </div>
 @endsection

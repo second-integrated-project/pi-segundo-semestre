@@ -14,7 +14,7 @@
 
         <div class="overflow-x-auto bg-gray-800 rounded shadow">
             <table class="w-full text-left table-auto">
-                <thead class="bg-gray-700 text-sm uppercase">
+                <thead class="bg-gray-700 text-sm uppercase text-center">
                     <tr>
                         <th class="p-4">Serviço</th>
                         <th class="p-4">Descrição</th>
@@ -29,17 +29,20 @@
                 </thead>
                 <tbody>
                     @foreach ($servicos as $item)
-                        <tr class="border-b border-gray-700 hover:bg-gray-700">
+                        <tr class="border-b border-gray-700 hover:bg-gray-700 text-center">
                             <td class="p-4">{{ $item->nome_servico }}</td>
                             <td class="p-4">{{ $item->descricao }}</td>
                             <td class="p-4">R$ {{ number_format($item->valor, 2, ',', '.') }}</td>
                             <td class="p-4">R$ {{ number_format($item->valor_fim_semana, 2, ',', '.') }}</td>
                             @if (auth()->check() && auth()->user()->role === 'admin')
                                 <td class="p-4">
-                                    <a href="{{ route('admin.servicos.edit', $item->id) }}"
-                                        class="text-yellow-400 hover:underline"><x-heroicon-o-pencil
-                                            class="w-5 h-5 text-blue-500" />
-                                    </a>
+                                    <div class="flex items-center justify-center">
+
+                                        <a href="{{ route('admin.servicos.edit', $item->id) }}"
+                                            class="text-yellow-400 hover:underline"><x-heroicon-o-pencil
+                                                class="w-5 h-5 text-blue-500" />
+                                        </a>
+                                    </div>
                                 </td>
                                 <td class="p-4">
                                     <form action="{{ route('admin.servicos.destroy', $item->id) }}" method="POST"
