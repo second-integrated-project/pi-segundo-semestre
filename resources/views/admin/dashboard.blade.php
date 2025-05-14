@@ -7,6 +7,7 @@
             <!-- Header -->
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold">Dashboard</h2>
+                <a href="{{ route('agendamento.create') }}">
                 <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">
                     + Novo Agendamento
                 </button>
