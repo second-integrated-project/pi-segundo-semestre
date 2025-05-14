@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('barbeiro_id')->constrained('users')->onDelete('cascade');
             $table->time('horario_disponivel');
             $table->foreignId('servico_id')->constrained('servicos')->onDelete('cascade');
-            $table->boolean('status')->default(false);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
