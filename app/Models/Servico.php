@@ -16,4 +16,9 @@ class Servico extends Model
         'valor_fim_semana',
         'desconto',
     ];
+
+    public function agendamentos()
+    {
+        return $this->hasMany(Agendamento::class, 'servico_id');
+    }
 }
