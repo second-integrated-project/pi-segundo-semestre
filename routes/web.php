@@ -36,10 +36,6 @@ Route::group([], function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/agendamento/create', [AgendamentoController::class, 'create'])->name('agendamento.create');
-    Route::post('agendamento/store', [AgendamentoController::class, 'store'])->name('agendamento.store');
-    Route::post('agendamento/cancelar/{id}', [AgendamentoController::class, 'cancelar'])->name('agendamento.cancelar');
-    Route::post('agendamento/confirmar/{id}', [AgendamentoController::class, 'confirmar'])->name('agendamento.confirmar');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -50,6 +46,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'user'])->group(function () {
     route::get('/agendamento', [AgendamentoController::class,'index'])->name('agendamento.index');
+    Route::get('/agendamento/create', [AgendamentoController::class, 'create'])->name('agendamento.create');
+    Route::post('agendamento/store', [AgendamentoController::class, 'store'])->name('agendamento.store');
+    Route::post('agendamento/cancelar/{id}', [AgendamentoController::class, 'cancelar'])->name('agendamento.cancelar');
+    Route::post('agendamento/confirmar/{id}', [AgendamentoController::class, 'confirmar'])->name('agendamento.confirmar');
 });
 
 // Rotas que precisam de autenticação e role 'admin'
