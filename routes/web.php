@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\AgendamentoController;
@@ -56,7 +56,7 @@ Route::middleware(['auth', 'user'])->group(function () {
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    route::get('admin/dashboard', [HomeController::class,'index'])->name('admin.dashboard');
+    route::get('admin/dashboard', [DashboardController::class,'index'])->name('admin.dashboard');
     Route::get('admin/inventario', [InventarioController::class, 'index'])->name('admin.inventario.index');
     Route::get('admin/inventario/create', [InventarioController::class, 'create'])->name('admin.inventario.create');
     Route::post('admin/inventario/store', [InventarioController::class, 'store'])->name('admin.inventario.store');

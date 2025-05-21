@@ -16,10 +16,6 @@
             <div class="bg-gray-800 p-4 rounded shadow">
                 <h3 class="text-sm">{{ $card['title'] }}</h3>
                 <p class="text-2xl font-bold">{{ $card['value'] }}</p>
-                <p class="{{ str_contains($card['change'], '-') ? 'text-red-500' : 'text-green-500' }}">
-                    {{ $card['change'] }} vs. ontem
-                </p>
-                <div class="mt-2 text-orange-400"><i class="fas fa-{{ $card['icon'] }}"></i></div>
             </div>
             @endforeach
         </div>

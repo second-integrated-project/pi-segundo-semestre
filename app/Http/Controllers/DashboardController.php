@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use App\Models\Servico;
 use App\Models\User;
 use App\Models\Agendamento;
-class HomeController extends Controller
+class DashboardController extends Controller
 
 {
     public function index() {
@@ -21,10 +21,10 @@ class HomeController extends Controller
         $servicosRealizados = Agendamento::whereDate('data', $hoje)->with('servico')->distinct('servico_id')->count('servico_id');
     
         $cards = [
-            ['title' => 'Agendamentos Hoje', 'value' => $agendamentos, 'change' => '+8.5%', 'icon' => 'calendar'],
-            ['title' => 'Clientes Atendidos', 'value' => $clientesAtendidos, 'change' => '+5.2%', 'icon' => 'users'],
-            ['title' => 'Faturamento', 'value' => 'R$ ' . number_format($faturamento, 2, ',', '.'), 'change' => '+12.3%', 'icon' => 'dollar-sign'],
-            ['title' => 'Serviços Realizados', 'value' => $servicosRealizados, 'change' => '-2.5%', 'icon' => 'scissors'],
+            ['title' => 'Agendamentos Hoje', 'value' => $agendamentos],
+            ['title' => 'Clientes Atendidos', 'value' => $clientesAtendidos],
+            ['title' => 'Faturamento', 'value' => 'R$ ' . number_format($faturamento, 2, ',', '.')],
+            ['title' => 'Serviços Realizados', 'value' => $servicosRealizados],
         ];
 
         $agendamentos_dia = Agendamento::whereDate('data', $hoje)

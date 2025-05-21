@@ -14,7 +14,6 @@ class Servico extends Model
         'descricao',
         'valor',
         'valor_fim_semana',
-        'desconto',
     ];
 
     public function agendamentos()
