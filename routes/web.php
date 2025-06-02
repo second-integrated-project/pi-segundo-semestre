@@ -6,12 +6,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\AgendamentoController;
+use App\Http\Controllers\ContatoController;
+
 
 // Rotas Públicas
 
 
 Route::group([], function () {
-    
+
     Route::get('/', function () {
         return view('home');
     });
@@ -24,12 +26,9 @@ Route::group([], function () {
         return view('sobre');
     })->name('sobre');
 
-    Route::get('/contato', function () {
-        return view('contato');
-    })->name('contato');
+    Route::get('/contato', [ContatoController::class, 'index'])->name('contato');
 
     Route::get('/servicos', [ServicoController::class, 'index'])->name('admin.servicos.index');
-
 });
 
 // Rotas que precisam de autenticação
@@ -46,14 +45,14 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['auth', 'user'])->group(function () {
-    route::get('/agendamento', [AgendamentoController::class,'index'])->name('agendamento.index');
+    route::get('/agendamento', [AgendamentoController::class, 'index'])->name('agendamento.index');
 });
 
 // Rotas que precisam de autenticação e role 'admin'
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    route::get('admin/dashboard', [HomeController::class,'index'])->name('admin.dashboard');
+    route::get('admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
     Route::get('admin/inventario', [InventarioController::class, 'index'])->name('admin.inventario.index');
     Route::get('admin/inventario/create', [InventarioController::class, 'create'])->name('admin.inventario.create');
     Route::post('admin/inventario/store', [InventarioController::class, 'store'])->name('admin.inventario.store');
@@ -67,4 +66,4 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('admin/servicos/destroy/{servico}', [ServicoController::class, 'destroy'])->name('admin.servicos.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
