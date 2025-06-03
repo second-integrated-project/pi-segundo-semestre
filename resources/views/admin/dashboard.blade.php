@@ -9,7 +9,7 @@
             <h2 class="text-2xl font-bold">Dashboard</h2>
         </div>
 
-        <!-- Cartões de Estatísticas -->
+        <!-- Cartões de Estatísticas -->        <span><strong>{{ $b['nome'][0] }}</strong> {{ $b['nome'] }}</span>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 
             @foreach ($cards as $card)

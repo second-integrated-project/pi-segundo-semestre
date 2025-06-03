@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\AgendamentoController;
+use App\Http\Controllers\Admin\UserController;
 
 // Rotas Públicas
 
@@ -56,7 +57,7 @@ Route::middleware(['auth', 'user'])->group(function () {
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    route::get('admin/dashboard', [DashboardController::class,'index'])->name('admin.dashboard');
+    Route::get('admin/dashboard', [DashboardController::class,'index'])->name('admin.dashboard');
     Route::get('admin/inventario', [InventarioController::class, 'index'])->name('admin.inventario.index');
     Route::get('admin/inventario/create', [InventarioController::class, 'create'])->name('admin.inventario.create');
     Route::post('admin/inventario/store', [InventarioController::class, 'store'])->name('admin.inventario.store');
@@ -68,6 +69,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/servicos/edit/{servico}', [ServicoController::class, 'edit'])->name('admin.servicos.edit');
     Route::patch('admin/servicos/edit/{servico}', [ServicoController::class, 'update'])->name('admin.servicos.update');
     Route::delete('admin/servicos/destroy/{servico}', [ServicoController::class, 'destroy'])->name('admin.servicos.destroy');
+
+    Route::get('admin/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::patch('admin/users/{user}/toggle', [UserController::class, 'toggleActive'])->name('admin.users.toggle');
+    Route::patch('admin/users/{user}/role', [UserController::class, 'changeRole'])->name('admin.users.role');
 });
 
 require __DIR__.'/auth.php';

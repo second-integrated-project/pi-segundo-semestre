@@ -1,6 +1,6 @@
 # Project developed for the Integrative Project (PI) of the second semester.
 
-This project is an API built using **Laravel Breeze and MySQL Workbench as database.**
+This project is an API built using **Laravel Breeze and SQLite as database.**
 
 ## Table of Contents
 
@@ -59,12 +59,10 @@ php artisan key:generate
 
 6. Configure .env file to connect with database:
 
-```bash
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=laravel
-DB_USERNAME=root
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=database/database.sqlite
+DB_USERNAME=
 DB_PASSWORD=
 ```
 
@@ -108,7 +106,7 @@ To access protected endpoints as an ADMIN user, provide the appropriate authenti
 
 ## Database
 
-The project utilizes [MySQL](https://www.mysql.com/) as the database.
+The project utilizes [SQLite](https://www.sqlite.org/index.html) as the database.
 
 ## Contributing
 
