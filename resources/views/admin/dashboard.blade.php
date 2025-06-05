@@ -9,7 +9,7 @@
             <h2 class="text-2xl font-bold">Dashboard</h2>
         </div>
 
-        <!-- Cartões de Estatísticas -->        <span><strong>{{ $b['nome'][0] }}</strong> {{ $b['nome'] }}</span>
+        <!-- Cartões de Estatísticas -->        
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 
             @foreach ($cards as $card)
@@ -37,8 +37,8 @@
                             }}
                         </p>
                     </div>
-                    <span class="text-xs px-2 py-1 rounded 
-    @if($a['status'] == 1) bg-green-500 
+                    <span class="text-xs px-2 py-1 rounded
+    @if($a['status'] == 1) bg-green-500
     @else bg-yellow-500 @endif">
                         {{ $a['status'] == 1 ? 'Confirmado' : 'Cancelado' }}
                     </span>
