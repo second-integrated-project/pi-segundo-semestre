@@ -22,6 +22,10 @@
                 <label class="block mb-1">Valor Fim de Semana</label>
                 <input type="text" name="valor_fim_semana" required class="w-full p-2 rounded bg-gray-700 text-white">
             </div>
+            <div>
+                <label class="block mb-1">Duração em Minutos</label>
+                <input type="text" name="duracao_minutos" required class="w-full p-2 rounded bg-gray-700 text-white">
+            </div>
         </div>
         <div class="flex justify-between">
                 <a href="{{ url()->previous() }}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">

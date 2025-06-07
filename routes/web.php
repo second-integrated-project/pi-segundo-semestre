@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\UserController;
 
 
 Route::group([], function () {
-    
+
     Route::get('/', function () {
         return view('home');
     });
@@ -46,18 +46,19 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['auth', 'user'])->group(function () {
-    route::get('/agendamento', [AgendamentoController::class,'index'])->name('agendamento.index');
+    route::get('/agendamento', [AgendamentoController::class, 'index'])->name('agendamento.index');
     Route::get('/agendamento/create', [AgendamentoController::class, 'create'])->name('agendamento.create');
-    Route::post('agendamento/store', [AgendamentoController::class, 'store'])->name('agendamento.store');
+    Route::post('/agendamento', [AgendamentoController::class, 'store'])->name('agendamento.store');
     Route::post('agendamento/cancelar/{id}', [AgendamentoController::class, 'cancelar'])->name('agendamento.cancelar');
     Route::post('agendamento/confirmar/{id}', [AgendamentoController::class, 'confirmar'])->name('agendamento.confirmar');
+    Route::get('/agendamento/horarios-disponiveis', [AgendamentoController::class, 'horariosDisponiveis']);
 });
 
 // Rotas que precisam de autenticação e role 'admin'
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('admin/dashboard', [DashboardController::class,'index'])->name('admin.dashboard');
+    Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('admin/inventario', [InventarioController::class, 'index'])->name('admin.inventario.index');
     Route::get('admin/inventario/create', [InventarioController::class, 'create'])->name('admin.inventario.create');
     Route::post('admin/inventario/store', [InventarioController::class, 'store'])->name('admin.inventario.store');
@@ -75,4 +76,4 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::patch('admin/users/{user}/role', [UserController::class, 'changeRole'])->name('admin.users.role');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -33,6 +33,26 @@
 
         <!-- Page Content -->
         <main>
+            @if (session('success') || session('error') || session('info'))
+                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" x-transition
+                    class="fixed bottom-5 right-5 z-50 max-w-xs w-full shadow-lg rounded-lg overflow-hidden">
+                    <div
+                        class="
+            px-4 py-3 
+            {{ session('success') ? 'bg-green-600' : (session('error') ? 'bg-red-600' : 'bg-blue-600') }} 
+            text-white flex items-start space-x-2
+        ">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium">
+                                {{ session('success') ?? (session('error') ?? session('info')) }}
+                            </p>
+                        </div>
+                        <button @click="show = false"
+                            class="text-white hover:text-gray-200 text-xl leading-none">&times;</button>
+                    </div>
+                </div>
+            @endif
+
             @yield('content')
         </main>
     </div>

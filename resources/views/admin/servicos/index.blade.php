@@ -20,6 +20,7 @@
                         <th class="p-4">Descrição</th>
                         <th class="p-4">Valor</th>
                         <th class="p-4">Valor Fim de Semana</th>
+                        <th class="p-4">Duração em Minutos</th>
                         @if (auth()->check() && auth()->user()->role === 'admin')
                             <th class="p-4">Editar</th>
                             <th class="p-4">Excluir</th>
@@ -34,6 +35,7 @@
                             <td class="p-4">{{ $item->descricao }}</td>
                             <td class="p-4">R$ {{ number_format($item->valor, 2, ',', '.') }}</td>
                             <td class="p-4">R$ {{ number_format($item->valor_fim_semana, 2, ',', '.') }}</td>
+                            <td class="p-4">{{ $item->duracao_minutos }}</td>
                             @if (auth()->check() && auth()->user()->role === 'admin')
                                 <td class="p-4">
                                     <div class="flex items-center justify-center">
