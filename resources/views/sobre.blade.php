@@ -84,9 +84,9 @@
 
                     <div class="text-center mt-12 pt-8 border-t border-gray-200">
                          <h3 class="text-2xl font-bold">Pronto para transformar seu estilo?</h3>
-                         <a href="#" class="mt-4 inline-block bg-yellow-500 text-gray-900 font-bold py-3 px-8 rounded-lg hover:bg-yellow-600 transition duration-300">
+                         <a href="{{ route('agendamento.index') }}" class="mt-4 inline-block bg-yellow-500 text-gray-900 font-bold py-3 px-8 rounded-lg hover:bg-yellow-600 transition duration-300">
                             Agende seu Horário
-                         </a>
+                        </a>
                     </div>
                 </div>
             </div>
