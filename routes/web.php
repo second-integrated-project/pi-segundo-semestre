@@ -5,9 +5,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ServicoController;
+use App\Http\Controllers\PacoteController;
 use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContatoController;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 // Rotas Públicas
 
@@ -29,6 +31,8 @@ Route::group([], function () {
     Route::get('/contato', [ContatoController::class, 'index'])->name('contato');
 
     Route::get('/servicos', [ServicoController::class, 'index'])->name('admin.servicos.index');
+
+    Route::get('/pacotes', [PacoteController::class, 'index'])->name('admin.pacotes.index');
 
 });
 
@@ -69,6 +73,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/servicos/edit/{servico}', [ServicoController::class, 'edit'])->name('admin.servicos.edit');
     Route::patch('admin/servicos/edit/{servico}', [ServicoController::class, 'update'])->name('admin.servicos.update');
     Route::delete('admin/servicos/destroy/{servico}', [ServicoController::class, 'destroy'])->name('admin.servicos.destroy');
+
+    Route::get('admin/pacotes/create', [PacoteController::class, 'create'])->name('admin.pacotes.create');
+    Route::post('admin/pacotes/store', [PacoteController::class, 'store'])->name('admin.pacotes.store');
+    Route::get('admin/pacotes/edit/{pacote}', [PacoteController::class, 'edit'])->name('admin.pacotes.edit');
+    Route::patch('admin/pacotes/edit/{pacote}', [PacoteController::class, 'update'])->name('admin.pacotes.update');
+    Route::delete('admin/servicos/destroy/{pacote}', [PacoteController::class, 'destroy'])->name('admin.pacotes.destroy');
+
 
     Route::get('admin/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::patch('admin/users/{user}/toggle', [UserController::class, 'toggleActive'])->name('admin.users.toggle');

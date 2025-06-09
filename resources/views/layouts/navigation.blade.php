@@ -22,6 +22,9 @@
                     <x-nav-link :href="route('admin.servicos.index')" :active="request()->routeIs('admin.servicos.index')" class="text-white hover:text-gray-200">
                         {{ __('Serviços') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.pacotes.index')" :active="request()->routeIs('admin.pacotes.index')" class="text-white hover:text-gray-200">
+                        {{ __('Planos') }}
+                    </x-nav-link>
                     @auth
                         @if (Auth::user()->role === 'admin')
                             <x-nav-link :href="route('admin.inventario.index')" :active="request()->routeIs('admin.inventario.index')" class="text-white hover:text-gray-200">

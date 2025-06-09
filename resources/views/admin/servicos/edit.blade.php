@@ -25,7 +25,7 @@
             </div>
             <div>
                 <label class="block mb-1">Duração em Minutos</label>
-                <input type="text" name="duracao_minutos" value="{{ $servico->duraca_minutos }}" required class="w-full p-2 rounded bg-gray-700 text-white">
+                <input type="text" name="duracao_minutos" value="{{ $servico->duracao_minutos }}" required class="w-full p-2 rounded bg-gray-700 text-white">
             </div>
            
         </div>
