@@ -30,6 +30,9 @@
                             <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" class="text-white hover:text-gray-200">
                                 {{ __('Dashboard') }}
                             </x-nav-link>
+                             <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" class="text-white hover:text-gray-200">
+                                {{ __('Usuários') }}
+                            </x-nav-link>
                         @elseif (Auth::user()->role === 'user')
                             <x-nav-link :href="route('agendamento.index')" :active="request()->routeIs('agendamento.index')" class="text-white hover:text-gray-200">
                                 {{ __('Meus Agendamentos') }}

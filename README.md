@@ -72,13 +72,19 @@ DB_PASSWORD=
 php artisan migrate
 ```
 
-8. To run Vite:
+8. Seed database:
+
+```bash
+php artisan db:seed
+```
+
+9. To run Vite:
 
 ```bash
 npm run dev
 ```
 
-9. To run PHP:
+10. To run PHP:
 
 ```bash
 php artisan serve

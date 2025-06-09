@@ -6,7 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\AgendamentoController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\UserController;
 
 // Rotas Públicas
 
