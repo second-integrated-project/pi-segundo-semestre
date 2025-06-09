@@ -7,6 +7,7 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ContatoController;
 
 // Rotas Públicas
 
@@ -25,9 +26,7 @@ Route::group([], function () {
         return view('sobre');
     })->name('sobre');
 
-    Route::get('/contato', function () {
-        return view('contato');
-    })->name('contato');
+    Route::get('/contato', [ContatoController::class, 'index'])->name('contato');
 
     Route::get('/servicos', [ServicoController::class, 'index'])->name('admin.servicos.index');
 
