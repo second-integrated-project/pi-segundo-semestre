@@ -5,7 +5,7 @@
             <div class="flex items-center min-w-0 flex-1">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="block h-8 w-auto sm:h-9" />
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="block h-12 w-auto sm:h-9" />
                 </div>
 
                 <!-- links das paginas -->

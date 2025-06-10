@@ -20,12 +20,5 @@
                 Pacotes de Serviços
             </a>
         </div>
-
-        <!-- Rodapé -->
-        <footer
-            class="fixed bottom-0 left-1/2 -translate-x-1/2 text-center text-sm text-gray-500 bg-gray-900 w-full py-2 shadow">
-            &copy; {{ date('Y') }} Barbearia {{ config('app.name') }}. Todos os direitos reservados.
-        </footer>
-
     </div>
 @endsection

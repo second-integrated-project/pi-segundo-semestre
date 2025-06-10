@@ -9,7 +9,7 @@
             <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
                 <!-- Logo -->
                 <div class="flex justify-center mb-8">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-16 w-auto">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-24 w-auto">
                 </div>
 
                 <div class="flex justify-center mb-6">

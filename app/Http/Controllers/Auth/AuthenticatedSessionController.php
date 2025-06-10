@@ -28,9 +28,7 @@ class AuthenticatedSessionController extends Controller
         try {
             $request->authenticate();
         } catch (AuthenticationException $e) {
-            return back()->withErrors([
-                'email' => $e->getMessage(),
-            ])->withInput($request->only('email'));
+            return redirect()->back()->with('error', $e->getMessage());
         }
 
         $request->session()->regenerate();
