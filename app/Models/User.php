@@ -46,9 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
     public function agendamentos()
     {
         return $this->hasMany(Agendamento::class, 'barbeiro_id');
+    }
+
+    public function pacotes()
+    {
+        return $this->belongsToMany(Pacote::class, 'pacote_user');
     }
 }

@@ -11,4 +11,10 @@ class Pacote extends Model
         'descricao',
         'valor'
     ];
+
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'pacote_user');
+    }
 }

@@ -9,7 +9,6 @@ use App\Http\Controllers\PacoteController;
 use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContatoController;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 
 // Rotas Públicas
 
@@ -55,6 +54,9 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::post('agendamento/cancelar/{id}', [AgendamentoController::class, 'cancelar'])->name('agendamento.cancelar');
     Route::post('agendamento/confirmar/{id}', [AgendamentoController::class, 'confirmar'])->name('agendamento.confirmar');
     Route::get('/agendamento/horarios-disponiveis', [AgendamentoController::class, 'horariosDisponiveis']);
+    Route::post('/pacotes/adquirir/{id}', [PacoteController::class, 'adquirirPacote'])->name('pacotes.adquirir');
+    Route::post('/pacotes/cancelar/{id}', [PacoteController::class, 'cancelarPacote'])->name('pacotes.cancelar');
+
 });
 
 // Rotas que precisam de autenticação e role 'admin'
@@ -78,7 +80,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('admin/pacotes/store', [PacoteController::class, 'store'])->name('admin.pacotes.store');
     Route::get('admin/pacotes/edit/{pacote}', [PacoteController::class, 'edit'])->name('admin.pacotes.edit');
     Route::patch('admin/pacotes/edit/{pacote}', [PacoteController::class, 'update'])->name('admin.pacotes.update');
-    Route::delete('admin/servicos/destroy/{pacote}', [PacoteController::class, 'destroy'])->name('admin.pacotes.destroy');
+    Route::delete('admin/pacotes/destroy/{pacote}', [PacoteController::class, 'destroy'])->name('admin.pacotes.destroy');
 
 
     Route::get('admin/users', [UserController::class, 'index'])->name('admin.users.index');

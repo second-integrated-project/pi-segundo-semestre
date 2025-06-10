@@ -7,7 +7,7 @@ use App\Models\Pacote;
 
 class PacoteController extends Controller
 {
-     public function index()
+    public function index()
     {
         $pacotes = Pacote::all();
         return view("admin.pacotes.index", compact("pacotes"));
@@ -42,4 +42,27 @@ class PacoteController extends Controller
         $pacote->delete();
         return redirect('/pacotes')->with('success', 'Item deletado com sucesso!');
     }
+
+    public function adquirirPacote($pacoteId)
+    {
+        $user = auth()->user();
+
+        $pacote = Pacote::findOrFail($pacoteId);
+
+        $user->pacotes()->syncWithoutDetaching([$pacote->id]);
+
+        return redirect()->route('admin.pacotes.index')
+            ->with('success', 'Plano adquirido com sucesso!');
+    }
+
+    public function cancelarPacote($pacoteId)
+{
+    $user = auth()->user();
+
+    $user->pacotes()->detach($pacoteId);
+
+    return redirect()->route('admin.pacotes.index')
+                     ->with('success', 'Plano cancelado com sucesso!');
+}
+
 }
