@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="min-h-screen bg-gray-900 text-white p-6">
+    <div class=" bg-gray-900 text-white p-6">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">Meus Agendamentos</h2>
             <a href="{{ route('agendamento.create') }}"
@@ -24,8 +24,8 @@
                     @foreach ($agendamentos as $item)
                         <tr class="border-b border-gray-700 hover:bg-gray-700">
                             <td class="p-4">{{ $item->barbeiro->name }}</td>
-                            <td class="p-4">{{ $item->data }}</td>
-                            <td class="p-4">{{ $item->horario_disponivel }}</td>
+                            <td class="p-4">{{ \Carbon\Carbon::parse($item->data)->format('d/m/Y') }}</td>
+                            <td class="p-4">{{ \Carbon\Carbon::parse($item->horario_disponivel)->format('H:i')}}</td>
                             <td class="p-4">{{ $item->servico->nome_servico }}</td>
 
                             <td class="p-4">

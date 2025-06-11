@@ -82,6 +82,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::patch('admin/pacotes/edit/{pacote}', [PacoteController::class, 'update'])->name('admin.pacotes.update');
     Route::delete('admin/pacotes/destroy/{pacote}', [PacoteController::class, 'destroy'])->name('admin.pacotes.destroy');
 
+    Route::post('/agendamento/{id}/status', [AgendamentoController::class, 'updateStatus'])->name('admin.agendamentos.updateStatus');
 
     Route::get('admin/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::patch('admin/users/{user}/toggle', [UserController::class, 'toggleActive'])->name('admin.users.toggle');

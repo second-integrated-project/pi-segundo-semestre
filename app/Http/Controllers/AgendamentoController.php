@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusAgendamento;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Agendamento;
@@ -188,6 +189,26 @@ class AgendamentoController extends Controller
         }
 
         return response()->json($horariosDisponiveis);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => ['required', 'string', 'in:confirmado,cancelado,atendido'],
+        ]);
+
+        $agendamento = Agendamento::findOrFail($id);
+
+        // Exemplo de autorização simples, ajuste conforme sua regra
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Acesso não autorizado.');
+        }
+
+        $novoStatus = StatusAgendamento::from($request->input('status'));
+        $agendamento->status = $novoStatus->value;
+        $agendamento->save();
+
+        return redirect()->back()->with('success', "Status atualizado para {$novoStatus->label()}.");
     }
 
 }

@@ -7,7 +7,7 @@
 </script>
 
 @section('content')
-    <div class="min-h-screen bg-gray-900 p-6">
+    <div class=" bg-gray-900 p-6">
         <h2 class="text-2xl font-bold mb-4 text-white">Realizar Agendamento</h2>
 
         <form action="{{ route('agendamento.store') }}" method="POST" class="" x-data="agendamento()">

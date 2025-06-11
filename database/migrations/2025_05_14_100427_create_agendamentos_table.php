@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,7 +17,7 @@ return new class extends Migration
             $table->foreignId('barbeiro_id')->constrained('users')->onDelete('cascade');
             $table->time('horario_disponivel');
             $table->foreignId('servico_id')->constrained('servicos')->onDelete('cascade');
-            $table->boolean('status')->default(true);
+            $table->enum('status', ['confirmado', 'cancelado', 'atendido'])->default('confirmado');
             $table->timestamps();
         });
     }

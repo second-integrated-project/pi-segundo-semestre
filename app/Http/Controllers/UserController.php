@@ -9,21 +9,21 @@ class UserController extends Controller
 {
     // Listar e pesquisar usuários
     public function index(Request $request)
-{
-    $search = $request->input('search');
+    {
+        $search = $request->input('search');
 
-    $users = User::query()
-        ->when($search, function ($query, $search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
-            });
-        })
-        ->orderBy('name')
-        ->paginate(10);
+        $users = User::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('name')
+            ->paginate(10);
 
-    return view('admin.users.index', compact('users', 'search'));
-}
+        return view('admin.users.index', compact('users', 'search'));
+    }
 
     // Ativar/Inativar usuário
     public function toggleActive(User $user)

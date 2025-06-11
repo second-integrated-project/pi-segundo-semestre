@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusAgendamento;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\Models\Servico;
 use App\Models\User;
 use App\Models\Agendamento;
 
@@ -14,94 +14,111 @@ class DashboardController extends Controller
     {
         $dataSelecionada = $request->input('data', Carbon::today()->toDateString());
 
-        // Agendamentos confirmados do dia
-        $agendamentosHoje = Agendamento::whereDate('data', $dataSelecionada)
-            ->where('status', 1)
-            ->with('servico')
-            ->get();
-
-        $agendamentosCount = $agendamentosHoje->count();
-
-        // Clientes atendidos: filtrar só agendamentos confirmados
-        $clientesAtendidosCount = Agendamento::whereDate('data', $dataSelecionada)
-            ->where('status', 1)
-            ->distinct('cliente_id')
-            ->count('cliente_id');
-
-        // Faturamento total: já está filtrado por $agendamentosHoje que é só confirmados
-        $faturamentoTotal = $agendamentosHoje->sum(function ($agendamento) {
-            return $agendamento->servico->valor ?? 0;
-        });
-
-        // Serviços realizados: filtrar só confirmados
-        $servicosRealizadosCount = Agendamento::whereDate('data', $dataSelecionada)
-            ->where('status', 1)
-            ->distinct('servico_id')
-            ->count('servico_id');
-
-        $cards = [
-            ['title' => 'Agendamentos Hoje', 'value' => $agendamentosCount],
-            ['title' => 'Clientes Atendidos', 'value' => $clientesAtendidosCount],
-            ['title' => 'Faturamento', 'value' => 'R$ ' . number_format($faturamentoTotal, 2, ',', '.')],
-            ['title' => 'Serviços Realizados', 'value' => $servicosRealizadosCount],
-        ];
-
-        // Agendamentos do dia detalhados (podem mostrar até os cancelados, aí depende do que deseja)
-        $agendamentosDia = Agendamento::whereDate('data', $dataSelecionada)
-            ->with(['barbeiro', 'servico', 'cliente'])
-            ->orderBy('horario_disponivel')
+        // Carregar todos os agendamentos com os relacionamentos necessários
+        $todosAgendamentos = Agendamento::with(['cliente', 'servico', 'barbeiro'])
+            ->whereDate('data', $dataSelecionada)
             ->get()
             ->map(function ($agendamento) {
+                $agendamento->status_enum = StatusAgendamento::tryFrom($agendamento->status);
+                return $agendamento;
+            });
+
+        $agendamentosConfirmados = $todosAgendamentos->filter(
+            fn($ag) => $ag->status_enum === StatusAgendamento::Confirmado
+        );
+
+        $agendamentosAtendidos = $todosAgendamentos->filter(
+            fn($ag) => $ag->status_enum === StatusAgendamento::Atendido
+        );
+
+        // Cartões do topo
+        $cards = [
+            [
+                'title' => 'Agendamentos Confirmados',
+                'value' => $agendamentosConfirmados->count(),
+            ],
+            [
+                'title' => 'Clientes Atendidos',
+                'value' => $agendamentosAtendidos->unique('cliente_id')->count(),
+            ],
+            [
+                'title' => 'Faturamento Total',
+                'value' => 'R$ ' . number_format(
+                    $agendamentosAtendidos->sum(fn($ag) => $ag->servico->valor ?? 0),
+                    2,
+                    ',',
+                    '.'
+                ),
+            ],
+            [
+                'title' => 'Tipos de Serviços',
+                'value' => $agendamentosAtendidos->unique('servico_id')->count(),
+            ],
+        ];
+
+        // Lista simples de agendamentos do dia
+        $agendamentosDia = $todosAgendamentos->sortBy('horario_disponivel')->map(function ($agendamento) {
+            return [
+                'id' => $agendamento->id,
+                'cliente' => $agendamento->cliente->name ?? 'Não informado',
+                'horario' => substr($agendamento->horario_disponivel, 0, 5),
+                'servico' => $agendamento->servico->nome_servico ?? 'N/A',
+                'barbeiro' => $agendamento->barbeiro->name ?? 'N/A',
+                'status_enum' => $agendamento->status_enum,
+            ];
+        });
+
+        // Desempenho dos barbeiros (admin)
+
+        $barbeiros = User::where('role', 'admin')->get()->map(function ($barbeiro) use ($todosAgendamentos) {
+            // Filtra agendamentos do barbeiro para os status Confirmado e Atendido
+            $agendamentosConfirmados = $todosAgendamentos->filter(
+                fn($ag) =>
+                $ag->barbeiro_id === $barbeiro->id && $ag->status === StatusAgendamento::Confirmado->value
+            );
+
+            $agendamentosAtendidos = $todosAgendamentos->filter(
+                fn($ag) =>
+                $ag->barbeiro_id === $barbeiro->id && $ag->status === StatusAgendamento::Atendido->value
+            );
+
+            $totalAgendamentos = $agendamentosConfirmados->count() + $agendamentosAtendidos->count();
+
+            $valorConfirmado = $agendamentosConfirmados->sum(fn($ag) => $ag->servico->valor ?? 0);
+            $valorAtendido = $agendamentosAtendidos->sum(fn($ag) => $ag->servico->valor ?? 0);
+
+            return [
+                'nome' => $barbeiro->name,
+                'valor_confirmado' => 'R$ ' . number_format($valorConfirmado, 2, ',', '.'),
+                'valor_atendido' => 'R$ ' . number_format($valorAtendido, 2, ',', '.'),
+                'agendamentos' => "{$totalAgendamentos}/10",
+                'percent' => min($totalAgendamentos * 10, 100),
+            ];
+        });
+
+        // Agrupamento por barbeiro
+        $agendamentosPorBarbeiro = $todosAgendamentos->groupBy(function ($agendamento) {
+            return $agendamento->barbeiro->name ?? 'Sem Barbeiro';
+        })->map(function ($agendamentos) {
+            return $agendamentos->map(function ($agendamento) {
                 return [
                     'cliente' => $agendamento->cliente->name ?? 'Não informado',
                     'horario' => substr($agendamento->horario_disponivel, 0, 5),
                     'servico' => $agendamento->servico->nome_servico ?? 'N/A',
-                    'barbeiro' => $agendamento->barbeiro->name ?? 'N/A',
-                    'status' => $agendamento->status ?? 0,
+                    'status_enum' => $agendamento->status_enum,
                 ];
-            });
+            })->toArray();
+        });
 
-        // Desempenho dos barbeiros: filtra só agendamentos confirmados (status=1)
-        $barbeiros = User::where('role', 'admin')
-            ->get()
-            ->map(function ($barbeiro) use ($dataSelecionada) {
-                $agendamentos = $barbeiro->agendamentos()
-                    ->whereDate('data', $dataSelecionada)
-                    ->where('status', 1)
-                    ->get();
+        $statusOrdenados = StatusAgendamento::orderedCases();
 
-                $total = $agendamentos->count();
-                $valor = $agendamentos->sum(function ($ag) {
-                    return $ag->servico->valor ?? 0;
-                });
-
-                return [
-                    'nome' => $barbeiro->name,
-                    'valor' => 'R$ ' . number_format($valor, 2, ',', '.'),
-                    'agendamentos' => "$total/10",
-                    'percent' => min($total * 10, 100),
-                ];
-            });
-
-        // Agendamentos agrupados por barbeiro (pode exibir todos, confirmados ou não)
-        $agendamentosPorBarbeiro = Agendamento::whereDate('data', $dataSelecionada)
-            ->with(['barbeiro', 'cliente', 'servico'])
-            ->get()
-            ->groupBy(function ($agendamento) {
-                return $agendamento->barbeiro->name ?? 'Sem Barbeiro';
-            })
-            ->map(function ($agendamentos) {
-                return $agendamentos->map(function ($agendamento) {
-                    return [
-                        'cliente' => $agendamento->cliente->name ?? 'Não informado',
-                        'horario' => substr($agendamento->horario_disponivel, 0, 5),
-                        'servico' => $agendamento->servico->nome_servico ?? 'N/A',
-                        'status' => $agendamento->status ?? 0,
-                    ];
-                })->toArray();
-            });
-
-        return view('admin.dashboard', compact('cards', 'agendamentosDia', 'barbeiros', 'agendamentosPorBarbeiro', 'dataSelecionada'));
+        return view('admin.dashboard', compact(
+            'cards',
+            'agendamentosDia',
+            'barbeiros',
+            'agendamentosPorBarbeiro',
+            'dataSelecionada',
+            'statusOrdenados'
+        ));
     }
-
 }

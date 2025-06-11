@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="min-h-screen bg-gray-900 text-white p-6">
+    <div class=" bg-gray-900 text-white p-6">
         <h2 class="text-2xl font-bold mb-4">Cadastrar Produto no Inventário</h2>
 
         <form action="{{ route('admin.inventario.store') }}" method="POST" class="bg-gray-800 p-6 rounded shadow">

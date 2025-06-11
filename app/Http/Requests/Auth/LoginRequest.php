@@ -44,14 +44,15 @@ class LoginRequest extends FormRequest
         $credentials = $this->only('email', 'password');
 
         $user = User::where('email', $this->email)->first();
-
-        if (!$user || !$user->active) {
-            throw new AuthenticationException('Sua conta está desativada.');
-        }
-
+        
         if (!Auth::attempt($credentials, $this->boolean('remember'))) {
             throw new AuthenticationException(trans('auth.failed'));
         }
+
+        if (!$user?->active) {
+            throw new AuthenticationException('Sua conta está desativada.');
+        }
+
 
         $this->ensureIsNotRateLimited();
     }

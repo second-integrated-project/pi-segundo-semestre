@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gray-900 text-white p-6">
+<div class=" bg-gray-900 text-white p-6">
     @if (auth()->check() && auth()->user()->role === 'admin')
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold">Planos</h2>
