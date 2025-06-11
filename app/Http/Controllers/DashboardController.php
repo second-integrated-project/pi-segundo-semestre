@@ -96,8 +96,8 @@ class DashboardController extends Controller
                 'nome' => $barbeiro->name,
                 'valor_confirmado' => 'R$ ' . number_format($valorConfirmado, 2, ',', '.'),
                 'valor_atendido' => 'R$ ' . number_format($valorAtendido, 2, ',', '.'),
-                'agendamentos' => "{$totalAgendamentos}/10",
-                'percent' => min($totalAgendamentos * 10, 100),
+                'agendamentos' => "{$totalAgendamentos}/6",
+                'percent' => min(($totalAgendamentos / 6) * 100, 100),
             ];
         });
 

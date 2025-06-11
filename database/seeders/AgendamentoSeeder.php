@@ -44,28 +44,27 @@ class AgendamentoSeeder extends Seeder
 
         $horaInicio = Carbon::createFromTime(9, 0, 0); // 9h
         $horaFim = Carbon::createFromTime(18, 0, 0); // 18h
-        $intervalo = 15; // minutos
+        $intervalo = 45; // minutos fixos
 
         foreach ($dias as $dia) {
             foreach ($clientes as $cliente) {
                 $servico = $servicos->random();
                 $barbeiro = $barbeiros->random();
 
-                // Gera todos os horários possíveis respeitando a duração do serviço
                 $horarios = [];
                 $horaAtual = $horaInicio->copy();
 
                 while ($horaAtual->copy()->addMinutes($servico->duracao_minutos)->lte($horaFim)) {
-                    $horarios[] = $horaAtual->format('H:i:s');
+                    if ($horaAtual->minute % 45 === 0) {
+                        $horarios[] = $horaAtual->format('H:i:s');
+                    }
                     $horaAtual->addMinutes($intervalo);
                 }
 
-                // Pega os agendamentos já feitos para esse barbeiro nesse dia
                 $agendamentosDia = Agendamento::where('data', $dia->toDateString())
                     ->where('barbeiro_id', $barbeiro->id)
                     ->get();
 
-                // Filtra horários que não entram em conflito
                 $horariosDisponiveis = collect($horarios)->filter(function ($horario) use ($agendamentosDia, $dia, $servico) {
                     $inicio = Carbon::parse($dia->toDateString() . ' ' . $horario);
                     $fim = $inicio->copy()->addMinutes($servico->duracao_minutos);
@@ -75,7 +74,7 @@ class AgendamentoSeeder extends Seeder
                         $agFim = $agInicio->copy()->addMinutes($ag->servico->duracao_minutos);
 
                         if ($inicio < $agFim && $fim > $agInicio) {
-                            return false; // conflito
+                            return false;
                         }
                     }
 
@@ -89,7 +88,6 @@ class AgendamentoSeeder extends Seeder
 
                 $horario = $horariosDisponiveis->random();
 
-                // Define status
                 $status = StatusAgendamento::Confirmado->value;
                 $agora = Carbon::now();
 
