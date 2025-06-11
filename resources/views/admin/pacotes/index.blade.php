@@ -50,16 +50,14 @@
                         <form action="{{ route('pacotes.cancelar', $item->id) }}" method="POST"
                             onsubmit="return confirm('Deseja realmente cancelar este plano?');">
                             @csrf
-                            <button type="submit"
-                                class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">
+                            <button type="submit" class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">
                                 Cancelar
                             </button>
                         </form>
                         @else
                         <form action="{{ route('pacotes.adquirir', $item->id) }}" method="POST">
                             @csrf
-                            <button type="submit"
-                                class="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600">
+                            <button type="submit" class="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600">
                                 Adquirir
                             </button>
                         </form>
@@ -67,20 +65,24 @@
                     </td>
                     @elseif (auth()->user()->role === 'admin')
                     <td class="p-4">
-                        <a href="{{ route('admin.pacotes.edit', $item->id) }}"
-                            class="text-yellow-400 hover:underline">
-                            <x-heroicon-o-pencil class="w-5 h-5 text-blue-500" />
-                        </a>
+                        <div class="flex justify-center items-center">
+                            <a href="{{ route('admin.pacotes.edit', $item->id) }}" title="Editar pacote"
+                                class="text-blue-500 hover:text-blue-400">
+                                <x-heroicon-o-pencil class="w-5 h-5" />
+                            </a>
+                        </div>
                     </td>
                     <td class="p-4">
-                        <form action="{{ route('admin.pacotes.destroy', $item->id) }}" method="POST"
-                            onsubmit="return confirm('Tem certeza que deseja excluir este item?');">
-                            @csrf
-                            @method('DELETE')
-                            <button class="text-red-500 hover:underline">
-                                <x-heroicon-o-trash class="w-5 h-5 text-red-500" />
-                            </button>
-                        </form>
+                        <div class="flex justify-center items-center">
+                            <form action="{{ route('admin.pacotes.destroy', $item->id) }}" method="POST"
+                                onsubmit="return confirm('Tem certeza que deseja excluir este item?');">
+                                @csrf
+                                @method('DELETE')
+                                <button title="Excluir pacote" class="text-red-500 hover:text-red-400">
+                                    <x-heroicon-o-trash class="w-5 h-5" />
+                                </button>
+                            </form>
+                        </div>
                     </td>
                     @endif
                     @endauth
@@ -89,11 +91,18 @@
 
                 @if ($pacotes->isEmpty())
                 <tr>
-                    <td colspan="7" class="p-4 text-center text-gray-400">Nenhum item encontrado.</td>
+                    @php
+                    $colspan = 3;
+                    if(auth()->check() && auth()->user()->role === 'user') {
+                    $colspan = 5;
+                    } elseif(auth()->check() && auth()->user()->role === 'admin') {
+                    $colspan = 5;
+                    }
+                    @endphp
+                    <td colspan="{{ $colspan }}" class="p-4 text-center text-gray-400">Nenhum item encontrado.</td>
                 </tr>
                 @endif
             </tbody>
-
         </table>
     </div>
 </div>

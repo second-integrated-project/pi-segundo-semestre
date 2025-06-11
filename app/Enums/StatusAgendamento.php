@@ -20,7 +20,7 @@ enum StatusAgendamento: string
     public function badgeClass(): string
     {
         return match ($this) {
-            self::Confirmado => 'bg-blue-500',
+            self::Confirmado => 'bg-blue-600',
             self::Cancelado => 'bg-yellow-500',
             self::Atendido => 'bg-green-600',
         };
