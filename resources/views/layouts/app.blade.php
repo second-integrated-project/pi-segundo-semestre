@@ -19,7 +19,7 @@
     <script src="https://unpkg.com/imask"></script>
 </head>
 
-<body class="font-sans antialiased  flex flex-col bg-gray-900">
+<body class="font-sans antialiased flex flex-col bg-gray-900 min-h-screen">
     <div class="flex-grow">
         @include('layouts.navigation')
 
@@ -59,7 +59,7 @@
     </div>
 
     <!-- Rodapé -->
-    <footer class="bottom-0 border-t border-gray-700 bg-gray-900 text-gray-300 py-8">
+    <footer class="border-t border-gray-700 bg-gray-900 text-gray-300 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between gap-8">
 
