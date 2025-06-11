@@ -20,6 +20,8 @@ class AgendamentoController extends Controller
 
     public function create()
     {
+        $user = Auth::user();
+
         $hoje = Carbon::now();
         $diaSemana = $hoje->dayOfWeek;
 
@@ -36,17 +38,18 @@ class AgendamentoController extends Controller
         $diasSemana = [];
 
         for ($data = $terca->copy(); $data->lessThanOrEqualTo($domingo); $data->addDay()) {
-            if ($data->isSameDay($hoje)) {
-                // Pula o dia atual para não permitir agendamento para o mesmo dia
+            if (!$user->isAdmin() && $data->isSameDay($hoje)) {
+                // Se não for admin, pula o dia atual para não permitir agendamento para o mesmo dia
                 continue;
             }
-            if ($data->greaterThan($hoje)) {
+            if ($data->greaterThan($hoje) || $user->isAdmin()) {
                 $diasSemana[] = [
                     'label' => $data->format('d/m'),
                     'value' => $data->format('Y-m-d'),
                 ];
             }
         }
+
 
         $barbeiros = User::where('role', 'admin')->get();
         $servicos = Servico::all();
