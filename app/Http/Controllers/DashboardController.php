@@ -42,6 +42,15 @@ class DashboardController extends Controller
                 'value' => $agendamentosAtendidos->unique('cliente_id')->count(),
             ],
             [
+                'title' => 'Faturamento Previsto',
+                'value' => 'R$ ' . number_format(
+                    $agendamentosConfirmados->sum(fn($ag) => $ag->servico->valor ?? 0),
+                    2,
+                    ',',
+                    '.'
+                ),
+            ],
+            [
                 'title' => 'Faturamento Total',
                 'value' => 'R$ ' . number_format(
                     $agendamentosAtendidos->sum(fn($ag) => $ag->servico->valor ?? 0),
@@ -49,11 +58,7 @@ class DashboardController extends Controller
                     ',',
                     '.'
                 ),
-            ],
-            [
-                'title' => 'Tipos de Serviços',
-                'value' => $agendamentosAtendidos->unique('servico_id')->count(),
-            ],
+            ]
         ];
 
         // Lista simples de agendamentos do dia
