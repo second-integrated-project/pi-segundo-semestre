@@ -42,38 +42,73 @@ class AgendamentoSeeder extends Seeder
             Carbon::now()->next(Carbon::SUNDAY),
         ];
 
-        $horaAtual = Carbon::now();
+        $horaInicio = Carbon::createFromTime(9, 0, 0); // 9h
+        $horaFim = Carbon::createFromTime(18, 0, 0); // 18h
+        $intervalo = 15; // minutos
 
         foreach ($dias as $dia) {
             foreach ($clientes as $cliente) {
+                $servico = $servicos->random();
+                $barbeiro = $barbeiros->random();
 
-                // Gera um horário aleatório entre 9h e 17h (formato H:i:s)
-                $hora = rand(9, 17);
-                $horario = sprintf('%02d:00:00', $hora);
+                // Gera todos os horários possíveis respeitando a duração do serviço
+                $horarios = [];
+                $horaAtual = $horaInicio->copy();
 
-                // Status padrão: Confirmado
-                $status = StatusAgendamento::Confirmado->value;
+                while ($horaAtual->copy()->addMinutes($servico->duracao_minutos)->lte($horaFim)) {
+                    $horarios[] = $horaAtual->format('H:i:s');
+                    $horaAtual->addMinutes($intervalo);
+                }
 
-                // Se for hoje e a hora já passou, marcar como Atendido
-                if ($dia->isSameDay($horaAtual) && $hora < $horaAtual->hour) {
-                    $status = StatusAgendamento::Atendido->value;
-                } else {
-                    // Aleatoriamente definir alguns como Cancelado (20% de chance)
-                    if (rand(1, 100) <= 20) {
-                        $status = StatusAgendamento::Cancelado->value;
+                // Pega os agendamentos já feitos para esse barbeiro nesse dia
+                $agendamentosDia = Agendamento::where('data', $dia->toDateString())
+                    ->where('barbeiro_id', $barbeiro->id)
+                    ->get();
+
+                // Filtra horários que não entram em conflito
+                $horariosDisponiveis = collect($horarios)->filter(function ($horario) use ($agendamentosDia, $dia, $servico) {
+                    $inicio = Carbon::parse($dia->toDateString() . ' ' . $horario);
+                    $fim = $inicio->copy()->addMinutes($servico->duracao_minutos);
+
+                    foreach ($agendamentosDia as $ag) {
+                        $agInicio = Carbon::parse($dia->toDateString() . ' ' . $ag->horario_disponivel);
+                        $agFim = $agInicio->copy()->addMinutes($ag->servico->duracao_minutos);
+
+                        if ($inicio < $agFim && $fim > $agInicio) {
+                            return false; // conflito
+                        }
                     }
+
+                    return true;
+                })->values();
+
+                if ($horariosDisponiveis->isEmpty()) {
+                    $this->command->warn("Sem horário disponível para {$cliente->name} no dia {$dia->toDateString()}");
+                    continue;
+                }
+
+                $horario = $horariosDisponiveis->random();
+
+                // Define status
+                $status = StatusAgendamento::Confirmado->value;
+                $agora = Carbon::now();
+
+                if ($dia->isSameDay($agora) && Carbon::parse($horario)->lt($agora)) {
+                    $status = StatusAgendamento::Atendido->value;
+                } elseif (rand(1, 100) <= 20) {
+                    $status = StatusAgendamento::Cancelado->value;
                 }
 
                 Agendamento::create([
                     'data' => $dia->toDateString(),
                     'horario_disponivel' => $horario,
                     'cliente_id' => $cliente->id,
-                    'barbeiro_id' => $barbeiros->random()->id,
-                    'servico_id' => $servicos->random()->id,
+                    'barbeiro_id' => $barbeiro->id,
+                    'servico_id' => $servico->id,
                     'status' => $status,
                 ]);
 
-                $this->command->info("Agendamento criado para {$cliente->name} no dia {$dia->toDateString()} às {$horario} com status {$status}");
+                $this->command->info("Agendamento criado para {$cliente->name} em {$dia->toDateString()} às {$horario} ({$status})");
             }
         }
 

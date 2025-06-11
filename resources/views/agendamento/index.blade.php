@@ -25,46 +25,46 @@
                         <tr class="border-b border-gray-700 hover:bg-gray-700">
                             <td class="p-4">{{ $item->barbeiro->name }}</td>
                             <td class="p-4">{{ \Carbon\Carbon::parse($item->data)->format('d/m/Y') }}</td>
-                            <td class="p-4">{{ \Carbon\Carbon::parse($item->horario_disponivel)->format('H:i')}}</td>
+                            <td class="p-4">{{ \Carbon\Carbon::parse($item->horario_disponivel)->format('H:i') }}</td>
                             <td class="p-4">{{ $item->servico->nome_servico }}</td>
 
                             <td class="p-4">
-                                <form
-                                    action="{{ $item->status == 1 ? route('agendamento.cancelar', $item->id) : route('agendamento.confirmar', $item->id) }}"
-                                    method="POST" class="inline-block"
-                                    onsubmit="return confirm('Tem certeza que deseja {{ $item->status == 1 ? 'cancelar' : 'confirmar' }} este agendamento?');">
-                                    @csrf
-                                    <label for="toggle_{{ $item->id }}" class="inline-flex items-center cursor-pointer">
-                                        <div class="relative">
-                                            <input type="checkbox" id="toggle_{{ $item->id }}" name="status"
-                                                class="sr-only" onclick="this.form.submit()"
-                                                {{ $item->status == 1 ? 'checked' : '' }}>
-                                            <div class="toggle__line w-12 h-6 bg-gray-300 rounded-full shadow-inner"></div>
-                                            <div
-                                                class="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0 transition">
-                                            </div>
-                                        </div>
-                                    </label>
-                                </form>
+                                <div x-data="{ open: false }" class="relative inline-block text-left">
+                                    <button @click="open = !open"
+                                        class="text-xs px-2 py-1 rounded {{ \App\Enums\StatusAgendamento::from($item->status)->badgeClass() }} text-white focus:outline-none">
+                                        {{ \App\Enums\StatusAgendamento::from($item->status)->label() }}
+                                        <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                            stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+
+                                    <div x-show="open" @click.outside="open = false"
+                                        class="absolute z-10 mt-1 w-40 bg-gray-700 border border-gray-300 rounded shadow-lg">
+                                        <form action="{{ route('agendamento.confirmar', $item->id) }}" method="POST"
+                                            onsubmit="return confirm('Tem certeza que deseja confirmar este agendamento?');">
+                                            @csrf
+                                            <button type="submit" name="status"
+                                                value="{{ \App\Enums\StatusAgendamento::Confirmado->value }}"
+                                                class="w-full text-left px-3 py-2 hover:bg-gray-600
+                    {{ $item->status === \App\Enums\StatusAgendamento::Confirmado->value ? 'font-bold text-blue-600' : '' }}">
+                                                Confirmado
+                                            </button>
+                                        </form>
+
+                                        <form action="{{ route('agendamento.cancelar', $item->id) }}" method="POST"
+                                            onsubmit="return confirm('Tem certeza que deseja cancelar este agendamento?');">
+                                            @csrf
+                                            <button type="submit" name="status"
+                                                value="{{ \App\Enums\StatusAgendamento::Cancelado->value }}"
+                                                class="w-full text-left px-3 py-2 hover:bg-gray-600
+                    {{ $item->status === \App\Enums\StatusAgendamento::Cancelado->value ? 'font-bold text-yellow-600' : '' }}">
+                                                Cancelado
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                             </td>
-
-                            <style>
-                                input[type="checkbox"]:checked+.toggle__line {
-                                    background-color: #4CAF50;
-                                }
-
-                                input[type="checkbox"]:checked+.toggle__line+.toggle__dot {
-                                    transform: translateX(100%);
-                                }
-
-                                .toggle__line {
-                                    transition: background-color 0.3s ease;
-                                }
-
-                                .toggle__dot {
-                                    transition: transform 0.3s ease;
-                                }
-                            </style>
                         </tr>
                     @endforeach
                     @if ($agendamentos->isEmpty())

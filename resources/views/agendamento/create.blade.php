@@ -80,7 +80,7 @@
                         <template x-if="horariosDisponiveis.length > 0">
                             <div class="text-center">
                                 <select x-model="horarioSelecionado" class="border rounded px-3 py-2 w-full max-w-xs">
-                                    <option value="" disabled selected>Selecione um horário</option>
+                                    <option value="" selected>Selecione um horário</option>
                                     <template x-for="hora in horariosDisponiveis" :key="hora">
                                         <option :value="hora" x-text="hora"></option>
                                     </template>

@@ -105,7 +105,8 @@
                                         <input type="hidden" name="id" value="{{ $a['id'] }}">
                                         @foreach ($statusOrdenados as $status)
                                             <button type="submit" name="status" value="{{ $status->value }}"
-                                                class="w-full text-left px-3 py-2 hover:bg-gray-700 {{ $a['status_enum'] && $a['status_enum']->value === $status->value ? 'font-bold' : '' }}">
+                                                class="w-full text-left px-3 py-2 hover:bg-gray-700
+        {{ $a['status_enum'] && $a['status_enum']->value === $status->value ? $status->badgeClass() . ' font-bold' : '' }}">
                                                 {{ $status->label() }}
                                             </button>
                                         @endforeach
